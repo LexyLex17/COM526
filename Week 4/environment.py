@@ -59,7 +59,7 @@ if __name__ == "__main__":
     water = e.world[1][5]
     robot1 = e.world[5][5]
 
-    for i in range(1):  # Change 1 simulate more moves. I.e. 100 would simulate 100 moves
+    for i in range(3):  # Change 1 simulate more moves. I.e. 100 would simulate 100 moves
         # Call the act method for each agent operating in the environment
         if water.act(e):
             robot1.refill()

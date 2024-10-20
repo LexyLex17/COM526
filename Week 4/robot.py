@@ -2,6 +2,7 @@ from agent import Agent
 import utils
 import random
 import heapq
+from environment import *
 
 
 class Robot(Agent):
@@ -15,6 +16,7 @@ class Robot(Agent):
         pass
 
     def act(self, environment):
+
         pass
 
     def move(self, environment, to):
@@ -46,7 +48,7 @@ class Robot(Agent):
                 row_offset, col_offset = directions[direction]
                 neighbour = (current_cell[0] + row_offset, current_cell[1] + col_offset)
 
-                if self.viable_move(neighbour[0], neighbour[1], avoid) and neighbour not in g_values:
+                if self.viable_move(neighbour[0], neighbour[1], avoid, e) and neighbour not in g_values:
                     cost = g_values[current_cell] + 1
                     g_values[neighbour] = cost
                     f_value = cost + self.calc_distance(goal, neighbour)
@@ -63,17 +65,21 @@ class Robot(Agent):
         path.reverse()
         return path
 
-    def viable_move(self, x, y, types):
+    def viable_move(self, x, y, types, environment):
         # You will need to do this one
-        valid_moves = []
         # Do not move in to a cell containing an obstacle (represented by 'x')
         # Do not move in to a cell containing a flame
         # Do not move in to a cell containing a water station
         # Do not move in to a cell containing a robot.
         # In fact, the only valid cells are blank ones
         # Also, do not go out of bounds.
-        if
-        pass
+        print(x, y)
+        if environment.world[y][x] == ' ':
+            print(True)
+            return True
+        else:
+            print(True)
+            return False
 
     def calc_distance(self, point1: tuple[int, int], point2: tuple[int, int]):
         x1, y1 = point1

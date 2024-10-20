@@ -1,5 +1,5 @@
-from environment import *
+from environment import Environment
 
 e = Environment("map.txt")
 
-print(e.world[5][5])
+print(e.world)

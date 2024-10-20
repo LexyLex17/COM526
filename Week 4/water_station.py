@@ -7,11 +7,15 @@ class WaterStation(Agent):
         super().__init__(position)
 
     def decide(self, percept):
-        pass
+        for cell in percept:
+            if utils.is_robot(cell) is True:
+                return True
+            else:
+                return False
 
     def act(self, environment):
         cells = self.sense(environment)
-        decision, cell = self.decide(cells)
+        decision = self.decide(cells)
 
         if decision is True:
             return decision
