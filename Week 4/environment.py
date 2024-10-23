@@ -41,7 +41,7 @@ class Environment:
     def get_cells(self, positions:list) -> dict[tuple[int,int],...]:
         cells = {}
         for pos in positions:
-            cells[pos] = self.world[pos[1]][pos[0]]
+            cells[pos] = self.world[pos[0]][pos[1]]
         return cells
 
     def __str__(self):

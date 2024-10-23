@@ -17,6 +17,7 @@ class Agent(ABC):
         for direction in ["up", "right", "down", "left"]:
             row_offset, col_offset = self.direction_offsets[direction]
             neighbours.append((self.position[0] + row_offset, self.position[1] + col_offset))
+
         return environment.get_cells(neighbours)
 
     @abstractmethod
