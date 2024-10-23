@@ -13,9 +13,7 @@ class WaterStation(Agent):
         return False
 
     def act(self, environment):
-        cells = self.sense(environment)
-        decision = self.decide(cells)
-
+        decision = self.decide(self.sense(environment))
         if decision:
             return decision
 

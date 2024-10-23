@@ -28,12 +28,14 @@ class Environment:
         return []
 
     def load_assets(self, world_map:list):
+        print("Yay")
         for i in range(len(world_map)):
             for j in range(len(world_map[i])):
                 if world_map[i][j] == 's':
                     world_map[i][j] = utils.WaterStation((j, i))
                 elif world_map[i][j] == 'r':
                     world_map[i][j] = utils.Robot((j, i))
+                    print("Yay", i, j)
                 elif world_map[i][j] == '*':
                     world_map[i][j] = utils.Flame()
         return world_map
@@ -60,13 +62,9 @@ class Environment:
         x = xPosition + xTo
         y = yPosition + yTo
         if environment.world[y][x] == ' ':
-            print(to)
-            print(x, y)
             print("Valid move")
             return True
         else:
-            print(to)
-            print(x, y)
             print("Invalid move")
             return False
 
@@ -84,5 +82,3 @@ if __name__ == "__main__":
             robot1.refill()
         robot1.act(e)
         print(e)
-        # robot1.move(e, [-1,0])
-

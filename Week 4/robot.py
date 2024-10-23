@@ -24,13 +24,20 @@ class Robot(Agent):
         }
         direction = random.randint(0,3)
         moveDirection = directions[direction]
-        self.move(environment, moveDirection)
-
+        currentPosition = self.position
+        newPosition = self.move(environment, moveDirection)
+        print(currentPosition, newPosition)
+        (environment.world[currentPosition[0]][currentPosition[1]], environment.world[newPosition[0]][newPosition[1]]) = (environment.world[newPosition[0]][newPosition[1]], environment.world[currentPosition[0]][currentPosition[1]])
         pass
 
     def move(self, environment, to):
         if environment.move_to(self.position, to, environment):
-            self.position = to
+            print(self.position, to)
+            xNew = self.position[1] + to[1]
+            yNew = self.position[0] + to[0]
+            self.position = (yNew, xNew)
+            return self.position
+
 
     def __str__(self):
         return '🚒'
