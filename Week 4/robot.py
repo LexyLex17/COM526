@@ -12,7 +12,18 @@ class Robot(Agent):
         self.water_level = 100
         self.water_station_location = None
 
-    def decide(self, percept: dict[tuple[int, int], ...]):
+    def decide(self, check, percept: dict[tuple[int, int], ...]):
+        if check == "flame":
+            for k, v in percept.items():
+                if utils.is_flame(v):
+                    print(f"Flame = {k}")
+                    return True, k
+            print("Not flame")
+            return False
+        elif check == "water":
+            for k, v in percept.items():
+                if utils.is_water_station(v):
+                    self.water_station_location = k
         pass
 
     def act(self, environment):
@@ -22,21 +33,44 @@ class Robot(Agent):
             2 : (-1, 0), # Up
             3 : (1, 0) # Down
         }
-        direction = random.randint(0,3)
-        moveDirection = directions[direction]
-        currentPosition = self.position
-        newPosition = self.move(environment, moveDirection)
-        print(currentPosition, newPosition)
-        (environment.world[currentPosition[0]][currentPosition[1]], environment.world[newPosition[0]][newPosition[1]]) = (environment.world[newPosition[0]][newPosition[1]], environment.world[currentPosition[0]][currentPosition[1]])
-        pass
+        # Sensing if water station is next to the robot
+        self.decide("water", self.sense(environment))
+        if self.water_level == 0:
+            # Go to water station using A*
+            pass
+        else:
+            # Sensing fire next to the robot
+            decision = self.decide("flame", self.sense(environment))
+            if decision:
+                environment.world[decision[1][1]][decision[1][0]] = ' '
+                self.water_level -= 5
+            else:
+                # Random move if possible (And all flames are dealt with)
+                direction = random.randint(0,3)
+                moveDirection = directions[direction]
+                print(moveDirection)
+                currentPosition = self.position
+                newPosition = self.move(environment, moveDirection)
+                env_Wlrd = environment.world
+                crntPos = currentPosition
+                newPos = newPosition
+                if newPosition:
+                    print((env_Wlrd[crntPos[1]][crntPos[0]], env_Wlrd[newPosition[0][1]][newPosition[0][0]]))
+                    print((env_Wlrd[newPos[0][1]][newPos[0][0]], env_Wlrd[currentPosition[1]][currentPosition[0]]))
+                    (env_Wlrd[crntPos[1]][crntPos[0]], env_Wlrd[newPos[0][1]][newPos[0][0]]) = (env_Wlrd[newPos[0][1]][newPos[0][0]], env_Wlrd[crntPos[1]][crntPos[0]])
+                    print(f"Previous position: {currentPosition}, Current position: {newPosition[0]}")
+                elif newPosition is None:
+                    print(f"Previous position: {currentPosition}, Current position: {currentPosition}")
+        print(self.water_level)
 
     def move(self, environment, to):
         if environment.move_to(self.position, to, environment):
-            print(self.position, to)
             xNew = self.position[1] + to[1]
+            print(f"xNew : {xNew}")
             yNew = self.position[0] + to[0]
+            print(f"yNew : {yNew}")
             self.position = (yNew, xNew)
-            return self.position
+            return self.position, True
 
 
     def __str__(self):

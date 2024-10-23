@@ -28,14 +28,12 @@ class Environment:
         return []
 
     def load_assets(self, world_map:list):
-        print("Yay")
         for i in range(len(world_map)):
             for j in range(len(world_map[i])):
                 if world_map[i][j] == 's':
                     world_map[i][j] = utils.WaterStation((j, i))
                 elif world_map[i][j] == 'r':
                     world_map[i][j] = utils.Robot((j, i))
-                    print("Yay", i, j)
                 elif world_map[i][j] == '*':
                     world_map[i][j] = utils.Flame()
         return world_map
@@ -55,19 +53,21 @@ class Environment:
         return out
 
     def move_to(self, position, to, environment):
-        xTo = to[1]
-        yTo = to[0]
-        xPosition = position[1]
-        yPosition = position[0]
-        x = xPosition + xTo
-        y = yPosition + yTo
+        x = position[1] + to[1]
+        y = position[0] + to[0]
+        print(f"x [Move to] : {x}, y [Move to] : {y}")
         if environment.world[y][x] == ' ':
             print("Valid move")
             return True
-        else:
-            print("Invalid move")
+        elif environment.world[y][x] == 'x':
+            print("Invalid move (Barrier)")
             return False
-
+        elif environment.world[y][x] == '*':
+            print("Invalid move (Flame)")
+            return False
+        elif environment.world[y][x] == 's':
+            print("Invalid move (Water Station)")
+            return False
 
 
 if __name__ == "__main__":
@@ -75,8 +75,9 @@ if __name__ == "__main__":
 
     water = e.world[1][5]
     robot1 = e.world[5][5]
+    print(e)
 
-    for i in range(3):  # Change 1 simulate more moves. I.e. 100 would simulate 100 moves
+    for i in range(10):  # Change 1 simulate more moves. I.e. 100 would simulate 100 moves
         # Call the act method for each agent operating in the environment
         if water.act(e):
             robot1.refill()
