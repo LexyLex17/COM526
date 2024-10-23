@@ -16,11 +16,20 @@ class Robot(Agent):
         pass
 
     def act(self, environment):
+        directions = {
+            0 : (0, 1), # Right
+            1 : (0, -1), # Left
+            2 : (-1, 0), # Up
+            3 : (1, 0) # Down
+        }
+        direction = random.randint(0,3)
+        moveDirection = directions[direction]
+        self.move(environment, moveDirection)
 
         pass
 
     def move(self, environment, to):
-        if environment.move_to(self.position, to):
+        if environment.move_to(self.position, to, environment):
             self.position = to
 
     def __str__(self):
@@ -75,10 +84,8 @@ class Robot(Agent):
         # Also, do not go out of bounds.
         print(x, y)
         if environment.world[y][x] == ' ':
-            print(True)
             return True
         else:
-            print(True)
             return False
 
     def calc_distance(self, point1: tuple[int, int], point2: tuple[int, int]):

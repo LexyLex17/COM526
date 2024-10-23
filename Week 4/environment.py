@@ -52,6 +52,25 @@ class Environment:
             out += "\n"
         return out
 
+    def move_to(self, position, to, environment):
+        xTo = to[1]
+        yTo = to[0]
+        xPosition = position[1]
+        yPosition = position[0]
+        x = xPosition + xTo
+        y = yPosition + yTo
+        if environment.world[y][x] == ' ':
+            print(to)
+            print(x, y)
+            print("Valid move")
+            return True
+        else:
+            print(to)
+            print(x, y)
+            print("Invalid move")
+            return False
+
+
 
 if __name__ == "__main__":
     e = Environment("map.txt")
@@ -65,5 +84,5 @@ if __name__ == "__main__":
             robot1.refill()
         robot1.act(e)
         print(e)
-
+        # robot1.move(e, [-1,0])
 
